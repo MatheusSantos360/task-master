@@ -1,8 +1,8 @@
 import { IGetUsersRepository } from "../../types/get-users/get-users.types";
-import { User } from "../../types/user.types";
+import { IUser } from "../../types/user.types";
 
 export class DBGetUsersRepository implements IGetUsersRepository {
-  async getUsers(): Promise<User[]> {
+  async getUsers(): Promise<IUser[]> {
     return [{
       id: "1",
       name: "John Doe",

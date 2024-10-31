@@ -8,4 +8,4 @@ export const userSchema = z.object({
   confirmPassword: z.string().min(8, "Must be at least 8 characters long."),
 });
 
-export type User = z.infer<typeof userSchema>;
+export type IUser = z.infer<typeof userSchema>;

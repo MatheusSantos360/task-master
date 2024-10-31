@@ -1,9 +1,10 @@
 import HttpResponse from '../http-response.type';
-import { User } from './../user.types';
+import { IUser } from './../user.types';
+
 export interface IGetUsersController {
-  handle(): Promise<HttpResponse<User[]>>
+  handle(): Promise<HttpResponse<IUser[]>>
 }
 
 export interface IGetUsersRepository {
-  getUsers(): Promise<User[]>
+  getUsers(): Promise<IUser[]>
 }
