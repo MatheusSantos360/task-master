@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/app.ts",
     "lint": "eslint",
-    "build": "tsup src/app.ts"
+    "build": "tsup src/app.ts",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
