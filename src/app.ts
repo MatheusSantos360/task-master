@@ -18,5 +18,5 @@ app.get("/users", async (req: Request, res: Response) => {
 
 app.listen(port, async () => {
   connectDB(process.env.MONGODB_TOKEN!)
-  console.log("server is running on http://localhost:3000");
+  console.log(`server is running on http://localhost:${port}`);
 });
