@@ -1,22 +1,16 @@
-import { DBGetUsersRepository } from './repositories/get-users/db-get-users';
-import express, { Application, Request, Response } from "express";
-import { config } from "dotenv"
-import { GetUsersController } from "./controllers/get-users/get-users";
-import connectDB from './functions/connectDB';
+import express, { Application } from "express";
 
-config()
-const port = process.env.PORT || 3000
+function WebServer() {
+    const app: Application = express();
+    const port = 3000;
 
-const app: Application = express();
+  const start = () => {
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
+  };
 
-app.get("/users", async (req: Request, res: Response) => {
-  const dbGetUsersRepository = new DBGetUsersRepository()
-  const getUsersController = new GetUsersController(dbGetUsersRepository)
-  const {statusCode, body } = await getUsersController.handle()
-  res.status(statusCode).json(body)
-})
+  return { app, start };
+}
 
-app.listen(port, async () => {
-  connectDB(process.env.MONGODB_TOKEN!)
-  console.log(`server is running on http://localhost:${port}`);
-});
+export default WebServer;
