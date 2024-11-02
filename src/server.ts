@@ -1,16 +1,26 @@
-import express, { Application } from "express";
+import express, { Application } from 'express';
+import http from 'http';
 
 function WebServer() {
-    const app: Application = express();
-    const port = 3000;
+  const app: Application = express();
+  const port = 3000;
+  let server: http.Server | null = null;
 
   const start = () => {
-    app.listen(port, () => {
+    server = app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
     });
   };
 
-  return { app, start };
+  const stop = () => {
+    if (server) {
+      server.close(() => {
+        console.log('Server stopped');
+      });
+    }
+  };
+
+  return { app, start, stop };
 }
 
 export default WebServer;
