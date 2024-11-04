@@ -1,4 +1,6 @@
 import express, { Application } from "express";
+import { GetUsersController } from "./controllers/get-users";
+import { DBGetUsersRepository } from "./repositories/get-users/get-users";
 import IWebServer from "./types/web-server.type";
 
 function WebServer(): IWebServer {
@@ -10,6 +12,12 @@ function WebServer(): IWebServer {
   const start = () => {
     server = app.listen(port, () => {
       console.log(`[Server status]: running on http://localhost:${port}`);
+    });
+
+    app.get("/", async (req, res) => {
+      const getUsersController = new GetUsersController(new DBGetUsersRepository());
+      const result = await getUsersController.handle();
+      res.send(result)
     });
   };
 

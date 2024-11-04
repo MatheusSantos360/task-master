@@ -1,7 +1,7 @@
-import { config } from 'dotenv';
-import Database from './functions/Database';
-import WebServer from './server';
-import IApp, { Config } from './types/app.types';
+import { config } from "dotenv";
+import Database from "./functions/Database";
+import WebServer from "./server";
+import IApp, { Config } from "./types/app.types";
 
 config();
 
@@ -16,7 +16,7 @@ function App(config: Config = {}): IApp {
 
   const stop = async () => {
     server.stop();
-    await database.disconnect();
+    database.disconnect();
   };
 
   return { start, stop };
