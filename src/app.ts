@@ -1,13 +1,13 @@
 import { config } from 'dotenv';
 import Database from './functions/Database';
 import WebServer from './server';
-import { Mocks } from './types/mocks/app.types';
+import { Config } from './types/mocks/app.types';
 
 config();
 
-function App(mocks: Mocks = {}) {
-  const database = mocks.database || Database();
-  const server = mocks.server || WebServer();
+function App(config: Config = {}) {
+  const database = config.database || Database();
+  const server = config.server || WebServer();
 
   const start = async () => {
     await database.connect(process.env.MONGODB_TOKEN!);
@@ -22,6 +22,8 @@ function App(mocks: Mocks = {}) {
   return { start, stop };
 }
 
-App().start()
+const { start, stop } = App()
+start()
+setTimeout(() => { stop(); }, 5000)
 
 export default App;

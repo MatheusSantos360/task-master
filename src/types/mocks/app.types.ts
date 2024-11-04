@@ -9,7 +9,7 @@ export interface ServerMock {
   stop: () => void;
 }
 
-export interface Mocks {
+export interface Config {
   database?: DatabaseMock;
   server?: ServerMock;
 }
