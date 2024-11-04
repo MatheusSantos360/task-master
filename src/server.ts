@@ -1,6 +1,7 @@
-import express, { Application } from 'express';
+import express, { Application } from "express";
+import IWebServer from "./types/web-server.type";
 
-function WebServer() {
+function WebServer(): IWebServer {
   const app: Application = express();
   const port = process.env.PORT || 3000;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,7 +16,7 @@ function WebServer() {
   const stop = () => {
     if (server) {
       server.close(() => {
-        console.log('[Server status]: stopped');
+        console.log("[Server status]: stopped");
       });
     }
   };

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import IDatabase from '../types/database.type';
 
-function Database() {
+function Database(): IDatabase {
   const connect = async (token: string): Promise<void> => {
     try {
       await mongoose.connect(token);

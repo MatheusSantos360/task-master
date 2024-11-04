@@ -1,11 +1,11 @@
 import { config } from 'dotenv';
 import Database from './functions/Database';
 import WebServer from './server';
-import { Config } from './types/mocks/app.types';
+import IApp, { Config } from './types/app.types';
 
 config();
 
-function App(config: Config = {}) {
+function App(config: Config = {}): IApp {
   const database = config.database || Database();
   const server = config.server || WebServer();
 
@@ -22,8 +22,6 @@ function App(config: Config = {}) {
   return { start, stop };
 }
 
-const { start, stop } = App()
-start()
-setTimeout(() => { stop(); }, 5000)
+App().start();
 
 export default App;
