@@ -1,4 +1,4 @@
-import HttpResponse from "../../http-response.type";
+import { HttpResponse } from "../../http.types";
 import { IUser } from "../../user.types";
 
 export interface IGetUsersController {

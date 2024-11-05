@@ -1,4 +1,5 @@
 import { IGetUsersController, IGetUsersRepository } from "../../types/repositories/get-users";
+import { response, status } from "../../functions/response";
 
 export class GetUsersController implements IGetUsersController {
   constructor(private readonly getUsersRepository: IGetUsersRepository) {}
@@ -7,15 +8,9 @@ export class GetUsersController implements IGetUsersController {
     try {
       const users = await this.getUsersRepository.getUsers();
 
-      return {
-        statusCode: 200,
-        body: users,
-      };
+      return status(response.OK).body(users)
     } catch {
-      return {
-        statusCode: 500,
-        body: "Something went wrong.",
-      };
+      return status(response.INTERNAL_SERVER_ERROR).body("Internal Server Error")
     }
   }
 }
