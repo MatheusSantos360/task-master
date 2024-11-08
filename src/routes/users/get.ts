@@ -1,12 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from "express";
+import { GetUsersController } from "../../controllers/get-users";
+import { DBGetUsersRepository } from "../../repositories/get-users/get-users";
 
-export const middlewares = [
-  (req: Request, res: Response, next: NextFunction) => {
-    console.log('Middleware.');
-    next();
-  },
-];
-
-export default (req: Request, res: Response) => {
-  res.json({ message: 'Users list' });
-};
+export default async (req: Request, res: Response) => {
+  const getUsersController = new GetUsersController(new DBGetUsersRepository());
+  const { status, body } = await getUsersController.handle()
+  res.status(status).send(body);
+}

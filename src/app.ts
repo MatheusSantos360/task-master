@@ -25,3 +25,5 @@ function App(config: Config = {}): IApp {
 App().start();
 
 export default App;
+
+console.log("Next: Tests");
