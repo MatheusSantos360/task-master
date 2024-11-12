@@ -1,56 +1,31 @@
 import { describe, expect, test, vi } from "vitest";
+import User from "../../src/models/user";
 import { GetUsersRepository } from "../../src/repositories/get-users";
 import { IUser } from "../../src/types/user.types";
-import User from "../../src/models/user";
-
-vi.mock("../../src/models/user", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const actual = await importOriginal() as { default: { find: any } };
-  return {
-    default: {
-      ...actual.default,
-      find: vi.fn().mockResolvedValue([
-        {
-          id: "1",
-          name: "John Doe",
-          email: "john@example.com",
-          password: "password123",
-          confirmPassword: "password123",
-        },
-        {
-          id: "2",
-          name: "Jane Smith",
-          email: "jane@example.com",
-          password: "password456",
-          confirmPassword: "password456",
-        },
-      ]),
-    },
-  };
-});
 
 describe("GetUsersRepository", () => {
   test("Should return an array of users", async () => {
-    const getUsersRepository = new GetUsersRepository();
-
-    const users: IUser[] = await getUsersRepository.getUsers();
-
-    expect(users).toEqual([
+    const users: IUser[] = [
       {
-        id: "1",
+        id: 1,
         name: "John Doe",
-        email: "john@example.com",
-        password: "password123",
-        confirmPassword: "password123",
+        email: "john@exmaple.com",
+        password: "john_password",
       },
       {
-        id: "2",
+        id: 2,
         name: "Jane Smith",
         email: "jane@example.com",
-        password: "password456",
-        confirmPassword: "password456",
+        password: "jane_password",
       },
-    ]);
-    expect(User.find).toHaveBeenCalledTimes(1);
+    ];
+
+    const findSpy = vi.spyOn(User, "find").mockResolvedValue(users);
+
+    const getUsersRepository = new GetUsersRepository();
+    const returnedUsers = await getUsersRepository.getUsers();
+
+    expect(findSpy).toBeCalledTimes(1);
+    expect(returnedUsers).toEqual(users);
   });
 });
