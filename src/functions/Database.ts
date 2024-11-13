@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 import IDatabase from '../types/database.type';
 
 function Database(): IDatabase {
-  const connect = async (token: string): Promise<void> => {
+  const connect = async (uri: string): Promise<void> => {
     try {
-      await mongoose.connect(token);
+      await mongoose.connect(uri);
       console.log('[Database status]: Connected.');
     } catch (error) {
       console.error(error);
