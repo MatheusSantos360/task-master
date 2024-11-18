@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "tsx src/app.ts",
     "dev": "tsx watch src/app.ts",
     "lint": "eslint",
     "build": "tsup src/app.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "verify": "timeout 5s npm run start; npm run lint; npm run test run; npm run build; rm -rf ./dist"
   },
   "keywords": [],
   "author": "",
