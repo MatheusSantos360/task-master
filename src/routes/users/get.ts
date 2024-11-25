@@ -4,6 +4,6 @@ import { GetUsersRepository } from "../../repositories/get-users";
 
 export default async (req: Request, res: Response) => {
   const getUsersController = new GetUsersController(new GetUsersRepository());
-  const { status, body } = await getUsersController.handle()
+  const { status, body } = await getUsersController.handle();
   res.status(status).send(body);
-}
+};

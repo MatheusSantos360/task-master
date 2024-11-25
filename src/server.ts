@@ -1,6 +1,7 @@
 import express, { Application } from "express";
-import IWebServer from "./types/web-server.type";
 import loadRoutes from "./functions/loadRoutes";
+import { jsonSyntaxErrorHandler } from "./middlewares/jsonSyntaxErrorHandler";
+import IWebServer from "./types/web-server.type";
 
 function WebServer(): IWebServer {
   const app: Application = express();
@@ -9,7 +10,12 @@ function WebServer(): IWebServer {
   let server: any;
 
   const start = () => {
-    loadRoutes(app, true);
+    loadRoutes(app);
+
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(jsonSyntaxErrorHandler);
+
     server = app.listen(port, () => {
       console.log(`[Server status]: running on http://localhost:${port}`);
     });

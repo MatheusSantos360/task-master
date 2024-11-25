@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import fs from "fs";
 import path from "path";
 
-function loadRoutes(app: express.Application, showRoutes: boolean) {
+function loadRoutes(app: express.Application) {
   const routesPath = path.join(__dirname, "../routes");
 
   const loadRouteFile = (routePath: string, routePrefix: string) => {
@@ -39,9 +39,7 @@ function loadRoutes(app: express.Application, showRoutes: boolean) {
           };
 
           routeMethods.forEach((method) => {
-            if (showRoutes) {
-              console.log(`Registering ${method.toUpperCase()} method at route: ${cleanRoutePrefix}`);
-            }
+            console.log(`Registering ${method.toUpperCase()} method at route: ${cleanRoutePrefix}`);
             // @ts-expect-error ...
             app[method](cleanRoutePrefix, splitParamsMiddleware, ...middlewares, handler);
           });

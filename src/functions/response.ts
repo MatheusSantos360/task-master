@@ -1,9 +1,15 @@
+import { serverError } from "../types/serverError";
+
 const status = (status: response) => {
-  return { status: status, body: body };
+  return { status: status, body, internalServerError };
 };
 
-const body = function <T>(this: { status: number }, body: T) {
-  return { status: this.status, body: body };
+const body = function <T>(this: { status: response }, body: T) {
+  return { status: this.status, body: { status: this.status, body } };
+};
+
+export const internalServerError = function (this: { status: response; body: typeof body }) {
+  return { status: this.status, body: { status: this.status, body: { message: serverError.message, errors: [serverError] } } };
 };
 
 export { status };
