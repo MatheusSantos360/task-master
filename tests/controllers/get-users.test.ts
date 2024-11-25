@@ -1,43 +1,32 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { GetUsersController } from "../../src/controllers/get-users";
 import { response } from "../../src/functions/response";
-import { IGetUsersRepository } from "../../src/types/repositories/get-users";
-import { IUser } from "../../src/types/user.types";
+import { GetUsersRepository } from "../../src/repositories/get-users";
 import { mockUsers } from "../mocks/user.mocks";
 
 describe("GetUsersController", () => {
   test("Should return a response with an array of users and status OK", async () => {
-    class GetUsersRepositoryTest implements IGetUsersRepository {
-      getUsers(): Promise<IUser[]> {
-        return Promise.resolve(mockUsers);
-      }
-    }
+    const getUsersSpy = vi.spyOn(GetUsersRepository.prototype, "getUsers").mockResolvedValue(mockUsers);
+    const getUsersController = new GetUsersController(new GetUsersRepository());
+    const { status, body } = await getUsersController.handle();
 
-    const getUsersController = new GetUsersController(new GetUsersRepositoryTest());
-    const users = await getUsersController.handle();
+    expect(getUsersSpy).toHaveBeenCalledOnce();
+    // @ts-expect-error the property data exists
+    expect(body.body.data).toBe(mockUsers);
+    expect(status).toBe(response.CREATED);
 
-    expect(users).toHaveProperty("status");
-    expect(users).toHaveProperty("body");
-    
-    expect(Array.isArray(users.body)).toBeTruthy();
-    expect(users.body).toBe(mockUsers);
-    expect(users.status).toBe(response.OK);
+    getUsersSpy.mockRestore();
   });
 
   test("Should return a response with an error message and status INTERNAL_SERVER_ERROR", async () => {
-    class GetUsersRepositoryTest implements IGetUsersRepository {
-      getUsers(): Promise<IUser[]> {
-        return Promise.reject(mockUsers);
-      }
-    }
+    const getUsersSpy = vi.spyOn(GetUsersRepository.prototype, "getUsers").mockRejectedValue(mockUsers);
+    const getUsersController = new GetUsersController(new GetUsersRepository());
+    const { status, body } = await getUsersController.handle();
 
-    const getUsersController = new GetUsersController(new GetUsersRepositoryTest());
-    const users = await getUsersController.handle();
+    expect(getUsersSpy).toHaveBeenCalledOnce();
+    expect(body.body).toHaveProperty("message");
+    expect(body.body).toHaveProperty("errors");
 
-    expect(users).toHaveProperty("status");
-    expect(users).toHaveProperty("body");
-    
-    expect(typeof users.body).toBe("string");
-    expect(users.status).toBe(response.INTERNAL_SERVER_ERROR);
+    expect(status).toBe(response.INTERNAL_SERVER_ERROR);
   });
 });

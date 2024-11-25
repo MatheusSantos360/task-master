@@ -8,7 +8,7 @@ export class GetUsersController implements IGetUsersController {
     try {
       const users = await this.getUsersRepository.getUsers();
 
-      return status(response.OK).body({ data: users });
+      return status(response.CREATED).body({ data: users });
     } catch {
       return status(response.INTERNAL_SERVER_ERROR).internalServerError();
     }
