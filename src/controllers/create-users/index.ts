@@ -9,9 +9,9 @@ export class CreateUsersController implements ICreateUsersController {
 
   async handle(body: IUser) {
     try {
-      const user = await User.findOne(body);
+      const user = await User.findOne({ id: body.id });
 
-      if (!user) {
+      if (user) {
         const validationError: Error = {
           message: "User already exists.",
         };
@@ -28,7 +28,8 @@ export class CreateUsersController implements ICreateUsersController {
         message: "User created successfully!",
         data: newUser,
       });
-    } catch {
+    } catch  (error) {
+      console.log(error)
       return status(response.INTERNAL_SERVER_ERROR).internalServerError();
     }
   }
