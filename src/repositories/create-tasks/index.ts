@@ -1,8 +1,13 @@
+import Task from "../../models/task";
 import { ICreateTasksRepository } from "../../types/repositories/create-tasks";
 import { ITask } from "../../types/task.types";
 
 export class createTasksRepository implements ICreateTasksRepository {
-  createTask(task: ITask): Promise<ITask[]> {
-    throw new Error("Method not implemented.");
+  async createTask(task: ITask) {
+    const newTask = new Task(task);
+
+    await newTask.save();
+
+    return newTask;
   }
 }

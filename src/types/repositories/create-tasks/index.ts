@@ -7,5 +7,5 @@ export interface ICreateTasksController {
 
 export interface ICreateTasksRepository {
   // @ts-expect-error ITask not implemented 
-  createTask(task: ITask): Promise<Itask[]>;
+  createTask(task: ITask): Promise<Itask>;
 }
