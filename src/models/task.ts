@@ -8,8 +8,8 @@ const tasksSchema = new Schema<TaskDocument>({
   title: { type: String, required: true },
   description: { type: String, required: true },
   dueDate: { type: Date },
-  priority: { type: String, enum: ["low", "medium", "high"], required: true },
-  status: { type: String, enum: ["pending", "in progress", "completed"], required: true },
+  priority: { type: String, enum: ["low", "medium", "high"], },
+  status: { type: String, enum: ["pending", "in progress", "completed"], required: true, default: "pending" },
   user: { type: Number, required: true },
 });
 

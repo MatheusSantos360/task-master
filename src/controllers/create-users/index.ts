@@ -9,7 +9,7 @@ export class CreateUsersController implements ICreateUsersController {
 
   async handle(body: IUser) {
     try {
-      const user = await User.findOne({ id: body.id });
+      const user = await User.findOne({ id: body.id, email: body.email });
 
       if (user) {
         const validationError: Error = {
@@ -28,8 +28,7 @@ export class CreateUsersController implements ICreateUsersController {
         message: "User created successfully!",
         data: newUser,
       });
-    } catch  (error) {
-      console.log(error)
+    } catch {
       return status(response.INTERNAL_SERVER_ERROR).internalServerError();
     }
   }

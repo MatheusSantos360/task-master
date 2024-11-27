@@ -3,12 +3,12 @@ import { generateID } from "../functions/generateID";
 import { processErrors } from "../functions/processErrors";
 import { response } from "../functions/response";
 import { Error } from "../types/http.types";
-import { userSchema } from "../types/user.types";
+import { tasksSchema } from "../types/task.types";
 
-export const validateUserData = (req: Request, res: Response, next: NextFunction) => {
+export const validateTaskData = (req: Request, res: Response, next: NextFunction) => {
   req.body.id = generateID();
 
-  const result = userSchema.safeParse(req.body);
+  const result = tasksSchema.safeParse(req.body);
 
   if (!result.success) {
     const errors: Error[] = processErrors(result.error).map((err) => ({
